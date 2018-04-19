@@ -1,0 +1,12 @@
+login-form {
+    .card-content {
+        padding-top: 0;
+    }
+    ion-card ion-row {
+        padding: 10px;
+        float: right;
+        div button:first-child {
+            margin-right: 10px;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+page-login {
+    img {
+        margin: 0 auto;
+        display: block;
+    }
+    .ion-content {
+        background-color: map-get($colors, background)
+    }
+}
