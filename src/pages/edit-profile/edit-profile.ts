@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Profile } from '../../models/user/user.interface';
 
 /**
  * Generated class for the EditProfilePage page.
@@ -15,12 +16,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EditProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  profile: Profile;
+
+  constructor(private navCtrl: NavController, private navParams: NavParams) {
+
+    this.profile = navParams.get('profile');
+
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditProfilePage');
-  }
 
   goToTabsPage(event: Boolean) {
 

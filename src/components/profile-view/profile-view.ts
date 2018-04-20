@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataProvider } from '../../providers/data/data';
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '@firebase/auth-types';
@@ -22,12 +22,16 @@ export class ProfileViewComponent implements OnInit {
 
   private loader: Loading;
 
+  @Output() existingProfile: EventEmitter<Profile>;
+
   constructor(
     private dataProvider: DataProvider,
     private authProvider: AuthProvider,
-    private laodingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController) {
 
-    this.loader = this.laodingCtrl.create({
+    this.existingProfile = new EventEmitter<Profile>();
+
+    this.loader = this.loadingCtrl.create({
       content: 'Loading profile...',
     })
 
@@ -43,6 +47,8 @@ export class ProfileViewComponent implements OnInit {
       this.dataProvider.getProfile(user).subscribe((profile: Profile) => {
 
         this.userProfile = profile;
+
+        this.existingProfile.emit(profile);
 
         this.loader.dismiss();
 

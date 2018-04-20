@@ -17,6 +17,6 @@
 
 <ion-content padding>
 
-    <edit-profile-form (saveProfileResult)="goToTabsPage($event)"></edit-profile-form>
+    <edit-profile-form [profile]="profile" (saveProfileResult)="goToTabsPage($event)"></edit-profile-form>
 
 </ion-content>
