@@ -25,7 +25,7 @@ export class InboxPage {
 
   navigateToUserSearchPage(): void {
 
-
+    this.navCtrl.push('UserSearchPage');
 
   }
 

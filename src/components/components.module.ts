@@ -8,6 +8,7 @@ import { EditProfileFormComponent } from './edit-profile-form/edit-profile-form'
 import { LoginFormComponent } from './login-form/login-form';
 import { ProfileViewComponent } from './profile-view/profile-view';
 import { RegisterFormComponent } from './register-form/register-form';
+import { ProfileSearchComponent } from './profile-search/profile-search';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { RegisterFormComponent } from './register-form/register-form';
 		LoginFormComponent,
 		RegisterFormComponent,
 		EditProfileFormComponent,
-		ProfileViewComponent],
+		ProfileViewComponent,
+		ProfileSearchComponent],
 
 	imports: [
 		IonicModule,
@@ -28,6 +30,7 @@ import { RegisterFormComponent } from './register-form/register-form';
 		LoginFormComponent,
 		RegisterFormComponent,
 		EditProfileFormComponent,
-		ProfileViewComponent]
+		ProfileViewComponent,
+		ProfileSearchComponent]
 })
 export class ComponentsModule { }
