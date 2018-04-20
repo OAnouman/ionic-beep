@@ -1,0 +1,46 @@
+<ion-grid no-padding>
+    <ion-row align-items-center justify-content-center>
+
+        <ion-col class="image-container" text-center>
+            <img class="image" src="assets/imgs/profile-avatar.png" alt="" srcset="">
+        </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+        <ion-col>
+
+            <div *ngIf="userProfile">
+
+                <ion-card>
+                    <ion-card-content>
+
+                        <ion-item>
+                            <ion-label floating>First Name</ion-label>
+                            <ion-input [value]="userProfile.firstName" type="text" [readonly]="true"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label floating>Last Name</ion-label>
+                            <ion-input [value]="userProfile.lastName" type="text" [readonly]="true"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label floating>Email Address</ion-label>
+                            <ion-input [value]="userProfile.email" type="text" [readonly]="true"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label floating>Date Of Birth</ion-label>
+                            <ion-input type="text" [readonly]="true" [value]="userProfile | amDateFormat:'ddd DD MMM YYYY '"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label floating>Bio</ion-label>
+                            <ion-textarea [value]="userProfile.bio" type="text" [readonly]="true"></ion-textarea>
+                        </ion-item>
+
+                    </ion-card-content>
+                </ion-card>
+
+            </div>
+
+        </ion-col>
+    </ion-row>
+</ion-grid>
