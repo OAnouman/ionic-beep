@@ -6,6 +6,8 @@ import { IonicModule } from 'ionic-angular';
 import { EditProfileFormComponent } from './edit-profile-form/edit-profile-form';
 import { LoginFormComponent } from './login-form/login-form';
 import { RegisterFormComponent } from './register-form/register-form';
+import { FormsModule } from '@angular/forms';
+import { ProfileViewComponent } from './profile-view/profile-view';
 
 
 
@@ -14,16 +16,19 @@ import { RegisterFormComponent } from './register-form/register-form';
 	declarations: [
 		LoginFormComponent,
 		RegisterFormComponent,
-		EditProfileFormComponent],
+		EditProfileFormComponent,
+    ProfileViewComponent],
 
 	imports: [
 		IonicModule,
 		AngularFireAuthModule,
-		AngularFireDatabaseModule],
+		AngularFireDatabaseModule,
+		FormsModule],
 
 	exports: [
 		LoginFormComponent,
 		RegisterFormComponent,
-		EditProfileFormComponent]
+		EditProfileFormComponent,
+    ProfileViewComponent]
 })
 export class ComponentsModule { }
