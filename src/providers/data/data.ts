@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User } from '@firebase/auth-types';
-import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/take';
 import { Profile } from '../../models/user/user.interface';
-import { IfObservable } from 'rxjs/observable/IfObservable';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { AuthProvider } from '../auth/auth';
 
 /*
   Generated class for the DataProvider provider.
@@ -21,7 +22,9 @@ export class DataProvider {
 
   private profileList: AngularFireList<Profile>;
 
-  constructor(private database: AngularFireDatabase) {
+  constructor(
+    private database: AngularFireDatabase,
+    private authProvider: AuthProvider) {
   }
 
   searchProfile(firstName: string): Observable<{}[]> {
@@ -66,11 +69,18 @@ export class DataProvider {
 
     } catch (e) {
 
-      console.log(e);
-
       return false;
 
     }
+
+  }
+
+  getAuthenticatedUserProfile() {
+
+    return this.authProvider.getAuthenticatedUser()
+      .map(user => user.uid)
+      .mergeMap(uid => this.database.object(`profiles/${uid}`).valueChanges())
+      .take(1);
 
   }
 

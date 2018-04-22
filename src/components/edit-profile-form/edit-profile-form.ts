@@ -35,11 +35,29 @@ export class EditProfileFormComponent implements OnDestroy, OnInit {
 
   async saveProfile() {
 
+    // Clean profile before saving 
+
+    this.trim();
+
     if (this.authenticatedUser) {
       const result = await this.dataProvider.saveProfile(this.authenticatedUser, this.profile);
 
       this.saveProfileResult.emit(result);
     }
+
+  }
+
+  private trim() {
+
+    Object.keys(this.profile).forEach((key: string) => {
+
+      if (typeof this.profile[key] === 'string') {
+
+        this.profile[key] = this.profile[key].trim();
+
+      }
+
+    })
 
   }
 

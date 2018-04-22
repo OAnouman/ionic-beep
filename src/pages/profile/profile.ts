@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Profile } from '../../models/user/user.interface';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the ProfilePage page.
@@ -18,7 +19,10 @@ export class ProfilePage {
 
   private existingProfile: Profile;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private authProvider: AuthProvider) {
   }
 
   getExistingProfile(profile: Profile): void {
@@ -32,6 +36,13 @@ export class ProfilePage {
     this.navCtrl.push('EditProfilePage', {
       profile: this.existingProfile
     });
+
+  }
+
+  async logout() {
+
+    await this.authProvider.signOut();
+    this.navCtrl.setRoot('LoginPage');
 
   }
 

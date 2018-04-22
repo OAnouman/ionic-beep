@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Profile } from '../../models/user/user.interface';
 import { DataProvider } from '../../providers/data/data';
 
@@ -15,6 +15,9 @@ import { DataProvider } from '../../providers/data/data';
 
 export class ProfileSearchComponent {
 
+
+  @Output() selectedProfile: EventEmitter<Profile>;
+
   query: string;
 
   profilesList: Profile[];
@@ -24,21 +27,23 @@ export class ProfileSearchComponent {
 
     this.profilesList = new Array<Profile>();
 
-  }
-
-
-  startPrivateChat() {
-
-
+    this.selectedProfile = new EventEmitter<Profile>();
 
   }
 
-  searchProfile(query): void {
 
-    if (query) {
-      this.dataProvider.searchProfile(query).subscribe((profiles: Profile[]) => this.profilesList = profiles);
-    } else {
-      this.profilesList = new Array<Profile>();
+  selectProfile(profile: Profile) {
+
+    this.selectedProfile.emit(profile);
+
+  }
+
+  searchProfile(query: string): void {
+
+    const trimmedQuery = query.trim();
+
+    if (trimmedQuery && trimmedQuery === query) {
+      this.dataProvider.searchProfile(trimmedQuery).subscribe((profiles: Profile[]) => this.profilesList = profiles);
     }
 
   }

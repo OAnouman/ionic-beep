@@ -22,6 +22,12 @@ export class AuthProvider {
   }
 
 
+  async signOut() {
+
+    await this.afAuth.auth.signOut();
+
+  }
+
   async createUserWithEmailAndPassword(credentials: Account) {
 
     try {

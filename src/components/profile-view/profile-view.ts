@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { DataProvider } from '../../providers/data/data';
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '@firebase/auth-types';
 import { Profile } from '../../models/user/user.interface';
 import { LoadingController, Loading } from 'ionic-angular';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the ProfileViewComponent component.
@@ -15,12 +16,13 @@ import { LoadingController, Loading } from 'ionic-angular';
   selector: 'profile-view',
   templateUrl: 'profile-view.html'
 })
-export class ProfileViewComponent implements OnInit {
-
+export class ProfileViewComponent implements OnInit, OnDestroy {
 
   userProfile: Profile;
 
   private loader: Loading;
+
+  private profileSubscription: Subscription;
 
   @Output() existingProfile: EventEmitter<Profile>;
 
@@ -37,25 +39,23 @@ export class ProfileViewComponent implements OnInit {
 
   }
 
-
   ngOnInit(): void {
 
     this.loader.present();
 
-    this.authProvider.getAuthenticatedUser().subscribe((user: User) => {
+    this.profileSubscription = this.dataProvider.getAuthenticatedUserProfile().subscribe((profile: Profile) => {
+      this.userProfile = profile;
 
-      this.dataProvider.getProfile(user).subscribe((profile: Profile) => {
+      this.existingProfile.emit(profile);
 
-        this.userProfile = profile;
-
-        this.existingProfile.emit(profile);
-
-        this.loader.dismiss();
-
-      });
-
+      this.loader.dismiss();
     });
 
+
+  }
+
+  ngOnDestroy(): void {
+    this.profileSubscription.unsubscribe();
   }
 
 
