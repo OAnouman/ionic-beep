@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DataSnapshot } from '@firebase/database';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
+import { ChatProvider } from '../../providers/chat/chat';
 
 /**
  * Generated class for the ChannelsPage page.
@@ -15,11 +18,55 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ChannelsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  channelsList: Observable<any[]>;
+
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private alertCtrl: AlertController,
+    private chatProvider: ChatProvider) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChannelsPage');
+  ionViewWillLoad() {
+
+    this.getChannels();
+
+  }
+
+  getChannels() {
+
+    this.channelsList = this.chatProvider.getChannelsRef().snapshotChanges();
+
+  }
+
+  selectChannel(channelSnapshot: DataSnapshot) {
+
+    this.navCtrl.push('ChannelChatPage', { channel: channelSnapshot });
+
+  }
+
+  showAddChannelDialog(): void {
+
+    this.alertCtrl.create({
+
+      title: 'Channel name',
+      inputs: [{
+        name: 'channelName',
+      }],
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel'
+      }, {
+        text: 'Add',
+        handler: (data) => {
+
+          this.chatProvider.addChannel(data.channelName);
+
+        }
+      }]
+
+    }).present();
+
   }
 
 }

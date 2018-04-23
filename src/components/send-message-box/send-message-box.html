@@ -1,12 +1,16 @@
-<ion-grid padding-left>
+<ion-grid>
     <ion-row align-items-center>
         <ion-col>
-            <ion-textarea placeholder="Type your message here"></ion-textarea>
-        </ion-col>
-        <ion-col col-auto>
-            <button ion-button clear icon-only>
-            <ion-icon name="send"></ion-icon>
-          </button>
+            <form #sendMessageForm="ngForm" novalidate>
+                <ion-col>
+                    <ion-textarea placeholder="Type your message here" name="message" [(ngModel)]="message.text" required></ion-textarea>
+                </ion-col>
+                <ion-col col-auto>
+                    <button ion-button clear icon-only (click)="send()" [disabled]="sendMessageForm.invalid">
+                        <ion-icon name="send"></ion-icon>
+                    </button>
+                </ion-col>
+            </form>
         </ion-col>
     </ion-row>
 </ion-grid>

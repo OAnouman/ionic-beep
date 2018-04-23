@@ -1,0 +1,5 @@
+<ion-list>
+    <ion-item *ngFor="let message of channelMessages$ | async">
+        <p>{{ message.text }}</p>
+    </ion-item>
+</ion-list>

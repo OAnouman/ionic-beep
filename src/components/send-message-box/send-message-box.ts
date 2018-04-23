@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { ChannelMessage } from '../../models/channels/channel-message.interface';
 
 /**
  * Generated class for the SendMessageBoxComponent component.
@@ -12,11 +13,20 @@ import { Component } from '@angular/core';
 })
 export class SendMessageBoxComponent {
 
-  text: string;
+
+  @Output() sendMessage: EventEmitter<ChannelMessage>;
+
+  message = {} as ChannelMessage;
 
   constructor() {
-    console.log('Hello SendMessageBoxComponent Component');
-    this.text = 'Hello World';
+    this.sendMessage = new EventEmitter<ChannelMessage>();
+  }
+
+  send(message: ChannelMessage) {
+
+    this.sendMessage.emit(this.message);
+    this.message.text = "";
+
   }
 
 }

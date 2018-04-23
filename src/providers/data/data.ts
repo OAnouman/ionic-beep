@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '@firebase/auth-types';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject, AngularFireAction } from 'angularfire2/database';
 import 'rxjs/Observable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -8,6 +8,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/take';
 import { Profile } from '../../models/user/user.interface';
 import { AuthProvider } from '../auth/auth';
+import { DataSnapshot } from '@firebase/database-types';
 
 /*
   Generated class for the DataProvider provider.
@@ -81,6 +82,40 @@ export class DataProvider {
       .map(user => user.uid)
       .mergeMap(uid => this.database.object(`profiles/${uid}`).valueChanges())
       .take(1);
+
+  }
+
+  getAuthenticatedUserProfileSnapshot() {
+
+    return this.authProvider.getAuthenticatedUser()
+      .map(user => user.uid)
+      .mergeMap(uid => this.database.object(`profiles/${uid}`).snapshotChanges())
+      .take(1);
+
+  }
+
+  async setUserOnline(profile: AngularFireAction<DataSnapshot>) {
+
+    const ref = this.database.database.ref(`online-users/${profile['payload'].key}`);
+
+    try {
+
+      ref.onDisconnect().remove();
+
+      await ref.update({ ...profile['payload'].val() });
+
+    } catch (e) {
+
+      console.error(e);
+
+    }
+
+
+  }
+
+  getOnlineUsers(): AngularFireList<Profile> {
+
+    return this.database.list<Profile>('online-users');
 
   }
 

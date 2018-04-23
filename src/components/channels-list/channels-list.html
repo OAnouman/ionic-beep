@@ -1,0 +1,5 @@
+<ion-list>
+    <ion-item *ngFor="let channel of channelsList | async" (click)="selectChannel(channel)">
+        #{{ channel.payload.val().name }}
+    </ion-item>
+</ion-list>

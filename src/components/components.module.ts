@@ -4,13 +4,16 @@ import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { IonicModule } from 'ionic-angular';
 import { MomentModule } from "ngx-moment";
+import { ChannelsListComponent } from './channels-list/channels-list';
+import { ChatMessageComponent } from './chat-message/chat-message';
 import { EditProfileFormComponent } from './edit-profile-form/edit-profile-form';
 import { LoginFormComponent } from './login-form/login-form';
+import { ProfileSearchComponent } from './profile-search/profile-search';
 import { ProfileViewComponent } from './profile-view/profile-view';
 import { RegisterFormComponent } from './register-form/register-form';
-import { ProfileSearchComponent } from './profile-search/profile-search';
 import { SendMessageBoxComponent } from './send-message-box/send-message-box';
-import { ChatMessageComponent } from './chat-message/chat-message';
+import { ChannelChatMessageListComponent } from './channel-chat-message-list/channel-chat-message-list';
+import { OnlineUsersListComponent } from './online-users-list/online-users-list';
 
 
 @NgModule({
@@ -20,8 +23,11 @@ import { ChatMessageComponent } from './chat-message/chat-message';
 		EditProfileFormComponent,
 		ProfileViewComponent,
 		ProfileSearchComponent,
-    SendMessageBoxComponent,
-    ChatMessageComponent],
+		SendMessageBoxComponent,
+		ChatMessageComponent,
+		ChannelsListComponent,
+    ChannelChatMessageListComponent,
+    OnlineUsersListComponent],
 
 	imports: [
 		IonicModule,
@@ -36,7 +42,10 @@ import { ChatMessageComponent } from './chat-message/chat-message';
 		EditProfileFormComponent,
 		ProfileViewComponent,
 		ProfileSearchComponent,
-    SendMessageBoxComponent,
-    ChatMessageComponent]
+		SendMessageBoxComponent,
+		ChatMessageComponent,
+		ChannelsListComponent,
+    ChannelChatMessageListComponent,
+    OnlineUsersListComponent]
 })
 export class ComponentsModule { }

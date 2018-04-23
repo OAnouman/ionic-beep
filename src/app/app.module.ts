@@ -7,15 +7,10 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from "angularfire2/database";
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { AuthProvider } from '../providers/auth/auth';
+import { ChatProvider } from '../providers/chat/chat';
 import { DataProvider } from '../providers/data/data';
 import { MyApp } from './app.component';
 import { FIREBASE_CREDENTIALS } from './firebase/firebase.credentials';
-
-// Google Firebase
-
-
-
-// Providers
 
 
 @NgModule({
@@ -38,7 +33,8 @@ import { FIREBASE_CREDENTIALS } from './firebase/firebase.credentials';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
-    DataProvider
+    DataProvider,
+    ChatProvider
   ]
 })
 export class AppModule { }

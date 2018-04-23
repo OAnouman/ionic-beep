@@ -6,13 +6,22 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Channels</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Channels</ion-title>
+
+        <ion-buttons end>
+            <button ion-button icon-only (click)="showAddChannelDialog()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+        </ion-buttons>
+
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+    <channels-list (selectedChannel)="selectChannel($event)" [channelsList]="channelsList"></channels-list>
 
 </ion-content>
