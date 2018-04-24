@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { DataSnapshot } from '@firebase/database-types';
+import { AngularFireAction } from 'angularfire2/database';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Profile } from '../../models/user/user.interface';
-import { MESSAGES_LIST } from '../../mocks/messages/messages';
+import { Observable } from 'rxjs/Observable';
 import { Message } from '../../models/message/message.interface';
+import { ChatProvider } from '../../providers/chat/chat';
+import { DataProvider } from '../../providers/data/data';
 
 /**
  * Generated class for the MessagePage page.
@@ -18,19 +21,65 @@ import { Message } from '../../models/message/message.interface';
 })
 export class MessagePage {
 
-  selectedProfile: Profile;
+  selectedProfile: DataSnapshot;
 
-  messageList: Message[];
+  userProfile: AngularFireAction<DataSnapshot>;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams) {
+  messagesList: Observable<Message[]>;
 
-    this.messageList = MESSAGES_LIST;
+
+
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private dataProvider: DataProvider,
+    private chatProvider: ChatProvider) {
 
   }
 
   ionViewWillLoad() {
 
     this.selectedProfile = this.navParams.get('profile');
+
+    this.messagesList = this.chatProvider.getChatsMessages(this.selectedProfile.key);
+
+    this.messagesList.subscribe(messages => console.log(messages));
+
+    this.dataProvider.getAuthenticatedUserProfileSnapshot().subscribe((profile: AngularFireAction<DataSnapshot>) => this.userProfile = profile);
+
+  }
+
+  async sendMessage(text: string) {
+
+    try {
+
+      const message: Message = {
+
+        text: text,
+
+        userToId: this.selectedProfile.key,
+
+        userToProfile: {
+          lastName: this.selectedProfile['payload'].val().lastName,
+          firstName: this.selectedProfile['payload'].val().firstName,
+        },
+
+        userFromId: this.userProfile.key,
+
+        userFromProfile: {
+          lastName: this.userProfile.payload.val().lastName,
+          firstName: this.userProfile.payload.val().firstName,
+        }
+
+      }
+
+      await this.chatProvider.sendChatMessage(message);
+
+    } catch (e) {
+
+      console.log(e);
+
+    }
 
   }
 

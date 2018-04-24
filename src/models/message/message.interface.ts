@@ -2,10 +2,20 @@ import { Profile } from "../user/user.interface";
 
 export interface Message {
 
-    user: Profile,
+    userFromId: string;
 
-    date: Date,
+    userFromProfile: {
+        firstName: string;
+        lastName: string;
+    }
 
-    lastMessage: string,
+    userToId: string;
+
+    userToProfile: {
+        firstName: string;
+        lastName: string;
+    }
+
+    text: string;
 
 }

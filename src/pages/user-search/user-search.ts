@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Profile } from '../../models/user/user.interface';
+import { DataSnapshot } from '@firebase/database-types';
 
 /**
  * Generated class for the UserSearchPage page.
@@ -16,10 +17,12 @@ import { Profile } from '../../models/user/user.interface';
 })
 export class UserSearchPage {
 
-  constructor(private navCtrl: NavController, private navParams: NavParams) {
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams) {
   }
 
-  openChat(profile: Profile) {
+  openChat(profile: DataSnapshot) {
 
     this.navCtrl.push('MessagePage', { profile });
 

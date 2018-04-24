@@ -7,7 +7,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>{{ selectedProfile?.firstName}} {{ selectedProfile?.lastName}} </ion-title>
+        <ion-title>{{ selectedProfile['payload'].val().firstName}} {{ selectedProfile['payload'].val().lastName}}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -15,14 +15,14 @@
 
 <ion-content padding>
 
-    <chat-message *ngFor="let message of messageList; let i = index" [chatMessage]="message" [chatIndex]="i"></chat-message>
+    <chat-message *ngFor="let message of messagesList | async" [chatMessage]="message" [userId]="userProfile.key"></chat-message>
 
 </ion-content>
 
 <ion-footer>
     <ion-toolbar no-padding>
 
-        <send-message-box></send-message-box>
+        <send-message-box (sendMessage)="sendMessage($event)"></send-message-box>
 
     </ion-toolbar>
 </ion-footer>

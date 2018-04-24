@@ -3,6 +3,9 @@ import { DataProvider } from '../../providers/data/data';
 import { Profile } from '../../models/user/user.interface';
 import { Observable } from 'rxjs/Observable';
 import { AsyncPipe } from "@angular/common";
+import { NavController } from 'ionic-angular';
+import { DataSnapshot } from '@firebase/database-types';
+import { AngularFireAction } from 'angularfire2/database';
 
 /**
  * Generated class for the OnlineUsersListComponent component.
@@ -17,10 +20,11 @@ import { AsyncPipe } from "@angular/common";
 export class OnlineUsersListComponent implements OnInit {
 
 
-  onlineUsersList: Observable<Profile[]>;
+  onlineUsersList: Observable<AngularFireAction<DataSnapshot>[]>;
 
   constructor(
-    private dataProvider: DataProvider) {
+    private dataProvider: DataProvider,
+    private navCtrl: NavController) {
 
   }
 
@@ -35,14 +39,18 @@ export class OnlineUsersListComponent implements OnInit {
 
   getOnlineUsers(): void {
 
-    this.onlineUsersList = this.dataProvider.getOnlineUsers().valueChanges().take(1);
-
-    this.onlineUsersList.subscribe(profile => console.log(profile));
+    this.onlineUsersList = this.dataProvider.getOnlineUsers();
 
   }
 
   ngOnInit(): void {
     this.setUserOnline();
+  }
+
+  openChat(profile: AngularFireAction<DataSnapshot>) {
+
+    this.navCtrl.push('MessagePage', { profile });
+
   }
 
 }

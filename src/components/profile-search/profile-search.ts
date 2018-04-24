@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Profile } from '../../models/user/user.interface';
 import { DataProvider } from '../../providers/data/data';
+import { DataSnapshot } from '@firebase/database-types';
+import { AngularFireAction } from 'angularfire2/database';
 
 /**
  * Generated class for the ProfileSearchComponent component.
@@ -16,23 +18,23 @@ import { DataProvider } from '../../providers/data/data';
 export class ProfileSearchComponent {
 
 
-  @Output() selectedProfile: EventEmitter<Profile>;
+  @Output() selectedProfile: EventEmitter<DataSnapshot>;
 
   query: string;
 
-  profilesList: Profile[];
+  profilesList: DataSnapshot[];
 
   constructor(
     private dataProvider: DataProvider) {
 
-    this.profilesList = new Array<Profile>();
+    this.profilesList = [] as DataSnapshot[];
 
-    this.selectedProfile = new EventEmitter<Profile>();
+    this.selectedProfile = new EventEmitter<DataSnapshot>();
 
   }
 
 
-  selectProfile(profile: Profile) {
+  selectProfile(profile: DataSnapshot) {
 
     this.selectedProfile.emit(profile);
 
@@ -43,7 +45,7 @@ export class ProfileSearchComponent {
     const trimmedQuery = query.trim();
 
     if (trimmedQuery && trimmedQuery === query) {
-      this.dataProvider.searchProfile(trimmedQuery).subscribe((profiles: Profile[]) => this.profilesList = profiles);
+      this.dataProvider.searchProfile(trimmedQuery).subscribe((profiles: DataSnapshot[]) => this.profilesList = profiles);
     }
 
   }

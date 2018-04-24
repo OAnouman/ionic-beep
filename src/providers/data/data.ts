@@ -4,6 +4,7 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject, AngularFireAct
 import 'rxjs/Observable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/take';
 import { Profile } from '../../models/user/user.interface';
@@ -37,7 +38,7 @@ export class DataProvider {
 
     }));
 
-    return query.valueChanges().take(1);
+    return query.snapshotChanges().take(1);
 
   }
 
@@ -80,17 +81,16 @@ export class DataProvider {
 
     return this.authProvider.getAuthenticatedUser()
       .map(user => user.uid)
-      .mergeMap(uid => this.database.object(`profiles/${uid}`).valueChanges())
+      .mergeMap(uid => this.database.object<Profile>(`profiles/${uid}`).valueChanges())
       .take(1);
 
   }
 
-  getAuthenticatedUserProfileSnapshot() {
+  getAuthenticatedUserProfileSnapshot(): Observable<AngularFireAction<DataSnapshot>> {
 
     return this.authProvider.getAuthenticatedUser()
       .map(user => user.uid)
-      .mergeMap(uid => this.database.object(`profiles/${uid}`).snapshotChanges())
-      .take(1);
+      .mergeMap(uid => this.database.object(`profiles/${uid}`).snapshotChanges());
 
   }
 
@@ -113,9 +113,18 @@ export class DataProvider {
 
   }
 
-  getOnlineUsers(): AngularFireList<Profile> {
+  getOnlineUsers() {
 
-    return this.database.list<Profile>('online-users');
+    let authUser: AngularFireAction<DataSnapshot>;
+
+    this.getAuthenticatedUserProfileSnapshot().subscribe(user => authUser = user);
+
+    return this.database.list<Profile>('online-users')
+      .snapshotChanges().map(users => {
+        return users.filter(user => user.key !== authUser.key);
+      })
+
+
 
   }
 
