@@ -3,7 +3,7 @@
         <ion-col>
             <form #sendMessageForm="ngForm" novalidate>
                 <ion-col>
-                    <ion-textarea placeholder="Type your message here" name="message" [(ngModel)]="message.text" required></ion-textarea>
+                    <ion-textarea placeholder="Type your message here" name="message" [(ngModel)]="message" required></ion-textarea>
                 </ion-col>
                 <ion-col col-auto>
                     <button ion-button clear icon-only (click)="send()" [disabled]="sendMessageForm.invalid">

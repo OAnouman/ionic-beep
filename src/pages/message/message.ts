@@ -43,8 +43,6 @@ export class MessagePage {
 
     this.messagesList = this.chatProvider.getChatsMessages(this.selectedProfile.key);
 
-    this.messagesList.subscribe(messages => console.log(messages));
-
     this.dataProvider.getAuthenticatedUserProfileSnapshot().subscribe((profile: AngularFireAction<DataSnapshot>) => this.userProfile = profile);
 
   }
@@ -55,7 +53,7 @@ export class MessagePage {
 
       const message: Message = {
 
-        text: text,
+        text: String(text),
 
         userToId: this.selectedProfile.key,
 

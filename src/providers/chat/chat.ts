@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { User } from '@firebase/auth-types';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireAction } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 import { ChannelMessage } from '../../models/channels/channel-message.interface';
 import { Channel } from '../../models/channels/channel.interface';
 import { Message } from '../../models/message/message.interface';
 import { AuthProvider } from '../auth/auth';
+import { DataSnapshot } from '@firebase/database';
 
 
 /*
@@ -68,9 +71,10 @@ export class ChatProvider {
       .mergeMap(chatsMessages => {
 
         return Observable.forkJoin(
-          chatsMessages.map(message => this.database.object(`messages/${message.key}`).valueChanges()),
-          (...vals: Message[]) => {
-            console.log(vals);
+          chatsMessages.map(message => {
+            return this.database.object<Message>(`messages/${message.key}`).valueChanges().first()
+          }),
+          (...vals) => {
             return vals;
           }
         )

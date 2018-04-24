@@ -13,9 +13,9 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
-    <chat-message *ngFor="let message of messagesList | async" [chatMessage]="message" [userId]="userProfile.key"></chat-message>
+    <chat-message *ngFor="let msg of messagesList | async" [chatMessage]="msg" [userProfile]="userProfile"></chat-message>
 
 </ion-content>
 

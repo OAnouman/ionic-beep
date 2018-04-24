@@ -14,18 +14,18 @@ import { ChannelMessage } from '../../models/channels/channel-message.interface'
 export class SendMessageBoxComponent {
 
 
-  @Output() sendMessage: EventEmitter<ChannelMessage>;
+  @Output() sendMessage: EventEmitter<string>;
 
-  message = {} as ChannelMessage;
+  message: string;
 
   constructor() {
-    this.sendMessage = new EventEmitter<ChannelMessage>();
+    this.sendMessage = new EventEmitter<string>();
   }
 
-  send(message: ChannelMessage) {
+  send(message: string) {
 
     this.sendMessage.emit(this.message);
-    this.message.text = "";
+    this.message = "";
 
   }
 
